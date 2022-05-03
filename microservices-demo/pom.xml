@@ -20,10 +20,11 @@
 		<java.version>11</java.version>
 		<spring-boot.version>2.6.7</spring-boot.version>
 		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<twitter4j.version>4.0.7</twitter4j.version>
+		<lombok.version>1.18.24</lombok.version>
 	</properties>
 
-	<dependencyManagement> <!-- We put all the common dependencies inside this <dependencyManagement> 
-			tag as this is the base POM XML -->
+	<dependencyManagement> <!-- We put all the common dependencies inside this <dependencyManagement> tag as this is the base POM XML -->
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -36,21 +37,39 @@
 				<version>${spring-boot.version}</version>
 				<scope>test</scope>
 			</dependency>
+
+			<!-- twitter4j-stream -> To stream data from Twitter -->
+			<dependency>
+				<groupId>org.twitter4j</groupId>
+				<artifactId>twitter4j-stream</artifactId>
+				<version>${twitter4j.version}</version>
+			</dependency>
+
+			<!-- lombok -> reduce boilerplate Java code -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
 
 
 	<build>
 		<plugins>
-	      <plugin>
-	        <groupId>org.apache.maven.plugins</groupId> <!-- By default Maven uses Java 1.8 version. But as we will use Java 11, we need to define this plugin -->
-	        <artifactId>maven-compiler-plugin</artifactId>
-	        <version>${maven-compiler-plugin.version}</version>
-	        <configuration>
-	          <release>11</release> <!-- Since Java 9 we need to use release tag instead source and target -->
-	        </configuration>
-	      </plugin>
-	    </plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId> <!-- By default Maven uses Java 1.8 version. But as we will use Java 11, 
+					we need to define this plugin -->
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<release>11</release> <!-- Since Java 9 we need to use release tag instead source and target -->
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement> <!-- Advantage of having these management tags is that, sub modules don't have to provide versions -->
 			<plugins>
 				<plugin>
@@ -62,4 +81,7 @@
 		</pluginManagement>
 	</build>
 
+	<modules>
+		<module>twitter-to-kafka-service</module>
+	</modules>
 </project>
